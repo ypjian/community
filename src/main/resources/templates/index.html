@@ -1,0 +1,56 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Younger社区</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+    <!--引入CSS标签,css通过link引入，rel 属性规定当前文档与被链接文档之间的关系。
+    stylesheet指示被链接的文档是一个样式表
+    href="css/bootstrap.min.css"会自动到静态资源文件下去找
+    当样式需要被应用到很多页面的时候，外部样式表将是理想的选择。
+    使用外部样式表，你就可以通过更改一个文件来改变整个站点的外观。-->
+    <link rel="stylesheet" href="css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="css/bootstrap-theme.min.css"/>
+
+    <!--引入javascript
+    在HTML中使用HTML需要借助<scirpt>标签,使用<script>标签的方式有两种:
+    一种是直接在<script>标签中嵌入JavaScript代码，另一种是用<script>的src属性引入外部JavaScript文件。-->
+    <script src="js/bootstrap.min.js" type="application/javascript"></script>
+</head>
+<body>
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <!-- 制作首页导航条 -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Younger社区</span>
+            </button>
+            <a class="navbar-brand" href="#">Younger社区</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <form class="navbar-form navbar-left">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="搜索问题">
+                </div>
+                <button type="submit" class="btn btn-default">搜索</button>
+            </form>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#">登录</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                       aria-expanded="false">我 <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">消息中 心</a></li>
+                        <li><a href="#">个人资料</a></li>
+                        <li><a href="#">退出登录</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+</body>
+</html>
