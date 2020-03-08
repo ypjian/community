@@ -1,7 +1,11 @@
 package com.younger.community.controller;
 
+import com.younger.community.dto.QuestionDto;
+import com.younger.community.mapper.QuestionMapper;
 import com.younger.community.mapper.UserMapper;
+import com.younger.community.model.Question;
 import com.younger.community.model.User;
+import com.younger.community.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 
 @Controller
@@ -18,8 +23,12 @@ public class IndexController {
     @Autowired
     private UserMapper userMapper;
 
+    @Autowired
+    private QuestionService questionSevice;
+
     @GetMapping("/")
-    public String index(HttpServletRequest request) {
+    public String index(HttpServletRequest request,
+                        Model model) {
 
         /*
         此段用来，当点击登录从github获得用户后，验证用户是否存在于数据库中，并在前端展示用户信息
@@ -47,6 +56,16 @@ public class IndexController {
                 }
             }
         }
+
+        /*
+        当用户发布问题后，会跳转到index页面，将question内容展示，包括回复量，图像等等信息
+        由于图像在user表，所以需要根据question的creator关联到user的id，拿到avatarUrl
+        建立一个questionDto，用于向question传递user信息
+        questionService同时组装了questinmapper和usermapper
+        因此可以完整显示用户发布的问题及图像信息
+         */
+        List<QuestionDto> questionList = questionSevice.list();
+        model.addAttribute("questions",questionList);
         return "index";
     }
 }
