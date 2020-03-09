@@ -1,0 +1,105 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="${sectionName}"></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+    <!--引入CSS标签,css通过link引入，rel 属性规定当前文档与被链接文档之间的关系。
+    stylesheet指示被链接的文档是一个样式表
+    href="css/bootstrap.min.css"会自动到静态资源文件下去找
+    当样式需要被应用到很多页面的时候，外部样式表将是理想的选择。
+    使用外部样式表，你就可以通过更改一个文件来改变整个站点的外观。-->
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/css/bootstrap-theme.min.css"/>
+    <link rel="stylesheet" href="/css/community.css"/>
+
+    <!--引入javascript
+    在HTML中使用HTML需要借助<scirpt>标签,使用<script>标签的方式有两种:
+    一种是直接在<script>标签中嵌入JavaScript代码，另一种是用<script>的src属性引入外部JavaScript文件。-->
+    <script src="/js/jquery-3.4.1.min.js"></script>
+    <script src="/js/bootstrap.min.js" type="application/javascript"></script>
+</head>
+<body>
+
+<!--直接调用公共的导航栏-->
+<div th:insert="navigation :: nav"></div>
+
+
+<div class="container-fluid main profile">
+    <div class="row">
+        <!--配置栅格系统大小-->
+        <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
+            <h2><span th:text="${sectionName}"></span></h2>
+            <hr>
+            <div class="media" th:each="question: ${pagedto.questions}">
+                <div class="media-left">
+                    <a href="#">
+                        <img class="media-object img-rounded"
+                             th:src="${question.user.avatarUrl}"
+                             style="width: 38px" height="38px"
+                        >
+                    </a>
+                </div>
+                <div class="media-body">
+                    <h4 class="media-heading" th:text="${question.title}"></h4>
+                    <span class="text-desc"><span th:text="${question.commentCount}"></span>个回复 . <span th:text="${question.viewCount}"></span>次浏览
+                     . <span th:text="${#dates.format(question.gmtCreate,'dd MMM yyyy')}"></span></span>
+                </div>
+            </div>
+
+            分页显示
+            <nav aria-label="Page navigation">
+                <ul class="pagination">
+
+                    <li th:if="${pagedto.showFirstPage}">
+                        <a th:href="@{'/profile/'+${section}(page=${1})}"
+                           aria-label="Previous">
+                            <span aria-hidden="true">&lt;&lt;</span>
+                        </a>
+                    </li>
+                    <li th:if="${pagedto.showPrevious}">
+                        <a th:href="@{'/profile/'+${section}(page=${pagedto.page -1})}" aria-label="Previous">
+                            <span aria-hidden="true">&lt;</span>
+                        </a>
+                    </li>
+
+
+                    <li th:each="page: ${pagedto.pages}" th:class="${pagedto.page == page}? 'active' : ''">
+                        <a th:href="@{'/profile/'+${section}(page=${page})}" th:text="${page}">
+
+                        </a>
+                    </li>
+
+                    <li th:if="${pagedto.showNext}">
+                        <a th:href="@{'/profile/'+${section}(page=${pagedto.page +1})}" aria-label="Previous">
+                            <span aria-hidden="true">&gt;</span>
+                        </a>
+                    </li>
+                    <li th:if="${pagedto.showEndPage}">
+                        <a th:href="@{'/profile/'+${section}(page=${pagedto.totalPage})}" aria-label="Previous">
+                            <span aria-hidden="true">&gt;&gt;</span>
+                        </a>
+                    </li>
+
+                </ul>
+            </nav>
+
+
+        </div>
+        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+            <div class="list-group section">
+                <a href="/profile/questions" th:class="${section == 'questions'}? 'active list-group-item' : 'list-group-item'">我的问题</a>
+                <a href="/profile/replies" th:class="${section == 'replies list-group-item'}? 'active' : 'list-group-item'">
+                    最新回复
+                    <span class="badge">14</span>
+                </a>
+            </div>
+        </div>
+
+
+
+    </div>
+</div>
+
+</body>
+</html>

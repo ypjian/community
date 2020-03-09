@@ -20,4 +20,12 @@ public interface QuestionMapper {
 
     @Select("select count(1) from question")
     Integer count();
+
+    //当用户点击我的问题时来数据库中查找问题信息
+    //调用list方法，传入各参数，然后@Param可以用于数据库查找
+    @Select("select * from question where creator = #{userId} limit #{offset},#{size}")
+    List<Question> listByUserId(@Param(value = "userId") Integer userId,@Param(value = "offset") Integer offset, @Param(value = "size")Integer size);
+
+    @Select("select count(1) from question where creator = #{userId}")
+    Integer countByuserId(@Param(value = "userId")Integer userId);
 }

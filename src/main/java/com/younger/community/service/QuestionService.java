@@ -35,7 +35,7 @@ public class QuestionService {
 
         //创建questiondto
         PageDto pageDto = new PageDto();
-        QuestionDto questionDto = new QuestionDto();
+
         Integer totalCount = questionMapper.count();
         pageDto.setpage(totalCount,page,size);
 
@@ -61,6 +61,7 @@ public class QuestionService {
 
             //questionDto.setId(question.getId());
             //快速的将question的所有属性拷贝到questionDto
+            QuestionDto questionDto = new QuestionDto();
             BeanUtils.copyProperties(question,questionDto);
             questionDto.setUser(user);
             questionDtoList.add(questionDto);
@@ -68,8 +69,46 @@ public class QuestionService {
 
         //将questionDtoList封装到
         pageDto.setQuestions(questionDtoList);
+        return pageDto;
+    }
+
+    public PageDto list(Integer userId, Integer page, Integer size) {
+        //创建questiondto
+        PageDto pageDto = new PageDto();
+
+        Integer totalCount = questionMapper.countByuserId(userId);
+        pageDto.setpage(totalCount,page,size);
+
+        if(page < 1) {
+            page = 1;
+        }
+        if(page > pageDto.getTotalPage()) {
+            page = pageDto.getTotalPage();
+        }
+
+        //size*(page-1)
+        Integer offset = size * (page - 1);
+
+        //根据useid去数据库查找该用户的专属信息
+        List<Question> questions = questionMapper.listByUserId(userId,offset,size);
+        List<QuestionDto> questionDtoList = new ArrayList<>();
 
 
+
+        for (Question question : questions) {
+            //根据question的creator找到对应的userid
+            User user = userMapper.findById(question.getCreator());
+
+            //questionDto.setId(question.getId());
+            //快速的将question的所有属性拷贝到questionDto
+            QuestionDto questionDto = new QuestionDto();
+            BeanUtils.copyProperties(question,questionDto);
+            questionDto.setUser(user);
+            questionDtoList.add(questionDto);
+        }
+
+        //将questionDtoList封装到
+        pageDto.setQuestions(questionDtoList);
         return pageDto;
     }
 }
