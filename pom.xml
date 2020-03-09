@@ -108,6 +108,12 @@
             <scope>provided</scope>
         </dependency>
 
+        <!-- 可以实现热部署功能 -->
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.boot</groupId>-->
+<!--            <artifactId>spring-boot-devtools</artifactId>-->
+<!--            <version>2.2.1.RELEASE</version>-->
+<!--        </dependency>-->
 
 
     </dependencies>

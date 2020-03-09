@@ -1,5 +1,6 @@
 package com.younger.community.controller;
 
+import com.younger.community.dto.PageDto;
 import com.younger.community.dto.QuestionDto;
 import com.younger.community.mapper.QuestionMapper;
 import com.younger.community.mapper.UserMapper;
@@ -28,7 +29,10 @@ public class IndexController {
 
     @GetMapping("/")
     public String index(HttpServletRequest request,
-                        Model model) {
+                        Model model,
+                        @RequestParam(name = "page",defaultValue = "1")Integer page,
+                        @RequestParam(name = "size",defaultValue = "5")Integer size
+                        ) {
 
         /*
         此段用来，当点击登录从github获得用户后，验证用户是否存在于数据库中，并在前端展示用户信息
@@ -64,8 +68,9 @@ public class IndexController {
         questionService同时组装了questinmapper和usermapper
         因此可以完整显示用户发布的问题及图像信息
          */
-        List<QuestionDto> questionList = questionSevice.list();
-        model.addAttribute("questions",questionList);
+        PageDto pagedto = questionSevice.list(page,size);
+
+        model.addAttribute("pagedto",pagedto);
         return "index";
     }
 }
