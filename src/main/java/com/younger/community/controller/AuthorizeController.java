@@ -103,5 +103,20 @@ public class AuthorizeController {
             return "redirect:/";
         }
     }
+
+    /*
+    完成退出登录功能
+     */
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request,
+                         HttpServletResponse response) {
+        //删除session
+        request.getSession().removeAttribute("user");
+        //删除cookie
+        Cookie cookie = new Cookie("token",null);
+        cookie.setMaxAge(0);
+        response.addCookie(cookie);
+        return "redirect:/";
+    }
 }
 

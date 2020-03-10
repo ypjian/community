@@ -9,15 +9,15 @@
     href="css/bootstrap.min.css"会自动到静态资源文件下去找
     当样式需要被应用到很多页面的时候，外部样式表将是理想的选择。
     使用外部样式表，你就可以通过更改一个文件来改变整个站点的外观。-->
-    <link rel="stylesheet" href="css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="css/bootstrap-theme.min.css"/>
-    <link rel="stylesheet" href="css/community.css"/>
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/css/bootstrap-theme.min.css"/>
+    <link rel="stylesheet" href="/css/community.css"/>
 
     <!--引入javascript
     在HTML中使用HTML需要借助<scirpt>标签,使用<script>标签的方式有两种:
     一种是直接在<script>标签中嵌入JavaScript代码，另一种是用<script>的src属性引入外部JavaScript文件。-->
-    <script src="js/jquery-3.4.1.min.js"></script>
-    <script src="js/bootstrap.min.js" type="application/javascript"></script>
+    <script src="/js/jquery-3.4.1.min.js"></script>
+    <script src="/js/bootstrap.min.js" type="application/javascript"></script>
 </head>
 <body>
 <!--直接调用公共的导航栏-->
@@ -30,6 +30,8 @@
             <h2><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>发起</h2>
             <hr>
             <form action="/publish" method="post">
+
+                <input type="hidden" name="id" th:value="${id}">
 
                 <div class="form-group">
                     <label for="title">问题标题 （简单扼要）</label>
