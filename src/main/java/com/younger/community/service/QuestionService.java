@@ -28,23 +28,29 @@ public class QuestionService {
 
     /*
     将所有的发布信息封装到questionDtoList中，包括question的信息和user的id及avatarUrl图像信息
-
     26 添加分页功能
      */
     public PageDto list(Integer page, Integer size) {
 
         //创建questiondto
         PageDto pageDto = new PageDto();
-
+        Integer totalPage;
         Integer totalCount = questionMapper.count();
-        pageDto.setpage(totalCount,page,size);
+
+        if(totalCount % size == 0) {
+            totalPage = totalCount / size;
+        }else {
+            totalPage = totalCount / size + 1;
+        }
 
         if(page < 1) {
             page = 1;
         }
-        if(page > pageDto.getTotalPage()) {
-            page = pageDto.getTotalPage();
+        if(page > totalPage) {
+            page = totalPage;
         }
+
+        pageDto.setpage(totalPage,page);
 
         //size*(page-1)
         Integer offset = size * (page - 1);
@@ -75,16 +81,23 @@ public class QuestionService {
     public PageDto list(Integer userId, Integer page, Integer size) {
         //创建questiondto
         PageDto pageDto = new PageDto();
-
+        Integer totalPage;
         Integer totalCount = questionMapper.countByuserId(userId);
-        pageDto.setpage(totalCount,page,size);
+
+        if(totalCount % size == 0) {
+            totalPage = totalCount / size;
+        }else {
+            totalPage = totalCount / size + 1;
+        }
 
         if(page < 1) {
             page = 1;
         }
-        if(page > pageDto.getTotalPage()) {
-            page = pageDto.getTotalPage();
+        if(page > totalPage) {
+            page = totalPage;
         }
+
+        pageDto.setpage(totalPage,page);
 
         //size*(page-1)
         Integer offset = size * (page - 1);
@@ -110,5 +123,14 @@ public class QuestionService {
         //将questionDtoList封装到
         pageDto.setQuestions(questionDtoList);
         return pageDto;
+    }
+
+    public QuestionDto getById(Integer id) {
+        Question question = questionMapper.getById(id);
+        QuestionDto questionDto = new QuestionDto();
+        BeanUtils.copyProperties(question,questionDto);
+        User user = userMapper.findById(question.getCreator());
+        questionDto.setUser(user);
+        return questionDto;
     }
 }

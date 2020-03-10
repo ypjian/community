@@ -63,24 +63,25 @@ public class PublishController {
             return "publish";
         }
 
-        User user = null;
+//        User user = null;
+//
+//        Cookie[] cookies = request.getCookies();
+//        if(cookies != null && cookies.length != 0) {
+//            for(Cookie cookie : cookies) {
+//                if(cookie.getName().equals("token")) {
+//                    String token = cookie.getValue();
+//                    //根据cookie去数据库中查找是否有用户存在
+//                    user = userMapper.findByToken(token);
+//                    if(user != null) {
+//                        //如果存在用户，将用户信息放到session中，用于前端展示
+//                        request.getSession().setAttribute("user",user);
+//                    }
+//                    break;
+//                }
+//            }
+//        }
 
-        Cookie[] cookies = request.getCookies();
-        if(cookies != null && cookies.length != 0) {
-            for(Cookie cookie : cookies) {
-                if(cookie.getName().equals("token")) {
-                    String token = cookie.getValue();
-                    //根据cookie去数据库中查找是否有用户存在
-                    user = userMapper.findByToken(token);
-                    if(user != null) {
-                        //如果存在用户，将用户信息放到session中，用于前端展示
-                        request.getSession().setAttribute("user",user);
-                    }
-                    break;
-                }
-            }
-        }
-
+        User user = (User) request.getSession().getAttribute("user");
         if(user == null) {
             model.addAttribute("error","用户未登录");
             return "publish";

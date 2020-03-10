@@ -1,0 +1,78 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="${question.title}"></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+    <!--引入CSS标签,css通过link引入，rel 属性规定当前文档与被链接文档之间的关系。
+    stylesheet指示被链接的文档是一个样式表
+    href="css/bootstrap.min.css"会自动到静态资源文件下去找
+    当样式需要被应用到很多页面的时候，外部样式表将是理想的选择。
+    使用外部样式表，你就可以通过更改一个文件来改变整个站点的外观。-->
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/css/bootstrap-theme.min.css"/>
+    <link rel="stylesheet" href="/css/community.css"/>
+
+    <!--引入javascript
+    在HTML中使用HTML需要借助<scirpt>标签,使用<script>标签的方式有两种:
+    一种是直接在<script>标签中嵌入JavaScript代码，另一种是用<script>的src属性引入外部JavaScript文件。-->
+    <script src="/js/jquery-3.4.1.min.js"></script>
+    <script src="/js/bootstrap.min.js" type="application/javascript"></script>
+</head>
+<body>
+
+<!--直接调用公共的导航栏-->
+<div th:insert="navigation :: nav"></div>
+
+
+<div class="container-fluid main profile">
+    <div class="row">
+        <!--配置栅格系统大小-->
+        <!--左边的布局-->
+        <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
+            <h4><span th:text="${question.title}"></span></h4>
+            <span class="communityMenu">
+                作者: <span th:text="${question.user.name}" class="communityMenu"></span></span> |
+                发布时间: <span th:text="${#dates.format(question.gmtCreate,'dd MMM yyyy')}" class="communityMenu"></span></span> |
+                阅读数: <span th:text="${question.viewCount}" class="communityMenu"></span>
+            <hr>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" th:text="${question.description}"></div>
+            <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <a th:href="@{'/publish/'+${question.id}}" class="communityMenu"
+                    th:if="${session.user != null && session.user.id == question.creator}">
+                    <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+                    编辑
+                </a>
+
+        </div>
+        <!--右边的布局-->
+        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <h4>发起人</h4>
+                <div class="media">
+                    <div class="media-left">
+                        <a href="#">
+                            <img class="media-object img-circle"
+                                 th:src="${question.user.avatarUrl}"
+                                 style="width: 38px" height="38px"
+                            >
+                        </a>
+                    </div>
+                    <div class="media-body">
+                        <h5 class="media-heading">
+                            <span th:text="${question.user.name}"></span>
+                        </h5>
+                    </div>
+                </div>
+            </div>
+            <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <h4>相关问题</h4>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

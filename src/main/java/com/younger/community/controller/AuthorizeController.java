@@ -5,6 +5,7 @@ import com.younger.community.dto.GithubUser;
 import com.younger.community.mapper.UserMapper;
 import com.younger.community.model.User;
 import com.younger.community.provider.GithubProvider;
+import com.younger.community.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -35,6 +36,9 @@ public class AuthorizeController {
 
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private UserService userService;
 
     //通过@value读取配置文件中的值
     @Value("${github.client.id}")
@@ -72,12 +76,13 @@ public class AuthorizeController {
             user.setToken(token);
             user.setName(githubUser.getName());
             user.setAccountId(String.valueOf(githubUser.getId()));
-            user.setGmtCreate(System.currentTimeMillis());
-            user.setGmtModified(user.getGmtCreate());
             user.setAvatarUrl(githubUser.getAvatarUrl());
 
+            //如果数据库中能够查找当前登录用户的accountid，则更新token，否则创建新的
+            userService.createOrUpdate(user);
+
             //将信息存入数据库
-            userMapper.insert(user);
+//            userMapper.insert(user);
 
             //登录成功，写cookie和session
             //将user放入到session中，相当于在银行中创建账户了，且给前端一个默认的银行卡（cookie），但此时不能自己选银行卡号
@@ -99,3 +104,4 @@ public class AuthorizeController {
         }
     }
 }
+

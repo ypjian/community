@@ -21,18 +21,17 @@ import java.util.List;
 @Controller
 public class IndexController {
 
-    @Autowired
-    private UserMapper userMapper;
+//    @Autowired
+//    private UserMapper userMapper;
 
     @Autowired
     private QuestionService questionSevice;
 
     @GetMapping("/")
-    public String index(HttpServletRequest request,
-                        Model model,
+    public String index(Model model,
                         @RequestParam(name = "page",defaultValue = "1")Integer page,
                         @RequestParam(name = "size",defaultValue = "5")Integer size
-                        ) {
+    ) {
 
         /*
         此段用来，当点击登录从github获得用户后，验证用户是否存在于数据库中，并在前端展示用户信息
@@ -44,22 +43,22 @@ public class IndexController {
          */
         //response是设置cookie，返回给浏览器
         //request是请求，获取cookie
-
-        Cookie[] cookies = request.getCookies();
-        if(cookies != null && cookies.length != 0) {
-            for(Cookie cookie : cookies) {
-                if(cookie.getName().equals("token")) {
-                    String token = cookie.getValue();
-                    //根据cookie去数据库中查找是否有用户存在
-                    User user = userMapper.findByToken(token);
-                    if(user != null) {
-                        //如果存在用户，将用户信息放到session中，用于前端展示
-                        request.getSession().setAttribute("user",user);
-                    }
-                    break;
-                }
-            }
-        }
+//
+//        Cookie[] cookies = request.getCookies();
+//        if(cookies != null && cookies.length != 0) {
+//            for(Cookie cookie : cookies) {
+//                if(cookie.getName().equals("token")) {
+//                    String token = cookie.getValue();
+//                    //根据cookie去数据库中查找是否有用户存在
+//                    User user = userMapper.findByToken(token);
+//                    if(user != null) {
+//                        //如果存在用户，将用户信息放到session中，用于前端展示
+//                        request.getSession().setAttribute("user",user);
+//                    }
+//                    break;
+//                }
+//            }
+//        }
 
         /*
         当用户发布问题后，会跳转到index页面，将question内容展示，包括回复量，图像等等信息
