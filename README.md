@@ -9,3 +9,4 @@
 
 ## 工具
 [git](https://git-scm.com/download)
+[terminal](D:\develop\Git\bin\bash.exe)
